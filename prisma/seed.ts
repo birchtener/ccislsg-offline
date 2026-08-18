@@ -20,27 +20,52 @@ const ResetDatabase = async () => {
   console.log("[1] Deleting All Database Data");
 
   await prisma.$transaction([
-    prisma.rolePermission.deleteMany(),
-    prisma.postImage.deleteMany(),
+    // 1. Attendance & Clearance
+    prisma.renderedClearance.deleteMany(),
+    prisma.clearance.deleteMany(),
+    prisma.clearanceList.deleteMany(),
+    prisma.attendance.deleteMany(),
+    prisma.attendanceEvents.deleteMany(),
+
+    // 2. Transactions & Fee Items
+    prisma.transactionItem.deleteMany(),
+    prisma.transaction.deleteMany(),
     prisma.feeItemStockLog.deleteMany(),
     prisma.feeItemVariant.deleteMany(),
-    prisma.transactionItem.deleteMany(),
-
-    prisma.auditLog.deleteMany(),
-    prisma.transaction.deleteMany(),
-    prisma.inventoryBorrow.deleteMany(),
-    prisma.inventoryAsset.deleteMany(),
-
-    prisma.post.deleteMany(),
-    prisma.inventoryBorrowers.deleteMany(),
     prisma.feeItem.deleteMany(),
 
+    // 3. Inventory & Lost & Found
+    prisma.inventoryBorrow.deleteMany(),
+    prisma.inventoryStockLog.deleteMany(),
+    prisma.inventoryAsset.deleteMany(),
     prisma.inventoryItem.deleteMany(),
-    prisma.user.deleteMany(),
-
+    prisma.inventoryBorrowers.deleteMany(),
     prisma.inventoryCategory.deleteMany(),
+
+    prisma.lostFoundImage.deleteMany(),
+    prisma.lostFoundItem.deleteMany(),
+
+    // 4. Students
+    prisma.student.deleteMany(),
+
+    // 5. Posts & Bulletin Board
+    prisma.bulletinBoard.deleteMany(),
+    prisma.postImage.deleteMany(),
+    prisma.post.deleteMany(),
+
+    // 6. User sessions, accounts, logs, verification
+    prisma.auditLog.deleteMany(),
+    prisma.session.deleteMany(),
+    prisma.account.deleteMany(),
+    prisma.verification.deleteMany(),
+
+    // 7. Role Permissions & Permissions
+    prisma.rolePermission.deleteMany(),
     prisma.permission.deleteMany(),
     prisma.permissionCategory.deleteMany(),
+
+    // 8. Users & Roles
+    prisma.user.deleteMany(),
     prisma.role.deleteMany(),
   ]);
 
@@ -618,7 +643,7 @@ const SeedFeeItems = async () => {
   console.log("[Seeding] Seeding Default Fee Items & Merchandise");
 
   const admin = await prisma.user.findFirst({
-    where: { role: { name: "System Admin" } },
+    where: { role: { name: "Admin" } },
   });
 
   const createdById = admin?.id;

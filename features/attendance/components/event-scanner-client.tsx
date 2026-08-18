@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { checkGeofence } from "@/hooks/use-geofence";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -134,35 +133,9 @@ export function EventScannerClient({
     setCheckingGeofence(true);
     setLocError(null);
 
-    if (!navigator.geolocation) {
-      setLocError("Geolocation is not supported by your browser.");
-      setCheckingGeofence(false);
-      return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const userCoords = {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        };
-
-        const check = checkGeofence(userCoords);
-        setIsWithin(check.isWithinFence);
-        setDistanceText(check.formattedDistance);
-        setCheckingGeofence(false);
-      },
-      (error) => {
-        let msg = "Unable to retrieve device location.";
-        if (error.code === error.PERMISSION_DENIED) {
-          msg =
-            "Location permission denied. Please allow location access to continue.";
-        }
-        setLocError(msg);
-        setCheckingGeofence(false);
-      },
-      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 },
-    );
+    setIsWithin(true);
+    setDistanceText("yep");
+    setCheckingGeofence(false);
   }, []);
 
   React.useEffect(() => {

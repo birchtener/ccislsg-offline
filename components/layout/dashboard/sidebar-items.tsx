@@ -78,71 +78,71 @@ const SidebarItemsData: SidebarCategory[] = [
       },
     ],
   },
-  {
-    label: "Operations & Finance",
-    permissions: [],
-    items: [
-      {
-        label: "Payments",
-        icon: Wallet,
-        permissions: ["payment:read", "item:read", "payment:collect"],
-        items: [
-          {
-            label: "Items",
-            url: "/dashboard/payments/items",
-            permissions: ["item:read"],
-          },
-          {
-            label: "Transactions",
-            url: "/dashboard/payments/transactions",
-            permissions: ["payment:read", "payment:collect"],
-          },
-          {
-            label: "Analytics",
-            url: "/dashboard/payments/analytics",
-            permissions: ["payment:read"],
-          },
-          {
-            label: "Logs",
-            url: "/dashboard/payments/logs",
-            permissions: ["payment:read"],
-          },
-        ],
-      },
-      {
-        label: "Inventory",
-        icon: Boxes,
-        permissions: ["inventory:read", "lost-found:read", "auditlog:read"],
-        items: [
-          {
-            label: "Items",
-            url: "/dashboard/inventory/items",
-            permissions: ["inventory:read"],
-          },
-          {
-            label: "Item Categories",
-            url: "/dashboard/inventory/categories",
-            permissions: ["inventory:read"],
-          },
-          {
-            label: "Borrows",
-            url: "/dashboard/inventory/borrows",
-            permissions: ["inventory:read"],
-          },
-          {
-            label: "Lost & Found",
-            url: "/dashboard/inventory/lost-found",
-            permissions: ["lost-found:read"],
-          },
-          {
-            label: "Logs",
-            url: "/dashboard/inventory/logs",
-            permissions: ["auditlog:read"],
-          },
-        ],
-      },
-    ],
-  },
+  // {
+  //   label: "Operations & Finance",
+  //   permissions: [],
+  //   items: [
+  //     {
+  //       label: "Payments",
+  //       icon: Wallet,
+  //       permissions: ["payment:read", "item:read", "payment:collect"],
+  //       items: [
+  //         {
+  //           label: "Items",
+  //           url: "/dashboard/payments/items",
+  //           permissions: ["item:read"],
+  //         },
+  //         {
+  //           label: "Transactions",
+  //           url: "/dashboard/payments/transactions",
+  //           permissions: ["payment:read", "payment:collect"],
+  //         },
+  //         {
+  //           label: "Analytics",
+  //           url: "/dashboard/payments/analytics",
+  //           permissions: ["payment:read"],
+  //         },
+  //         {
+  //           label: "Logs",
+  //           url: "/dashboard/payments/logs",
+  //           permissions: ["payment:read"],
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       label: "Inventory",
+  //       icon: Boxes,
+  //       permissions: ["inventory:read", "lost-found:read", "auditlog:read"],
+  //       items: [
+  //         {
+  //           label: "Items",
+  //           url: "/dashboard/inventory/items",
+  //           permissions: ["inventory:read"],
+  //         },
+  //         {
+  //           label: "Item Categories",
+  //           url: "/dashboard/inventory/categories",
+  //           permissions: ["inventory:read"],
+  //         },
+  //         {
+  //           label: "Borrows",
+  //           url: "/dashboard/inventory/borrows",
+  //           permissions: ["inventory:read"],
+  //         },
+  //         {
+  //           label: "Lost & Found",
+  //           url: "/dashboard/inventory/lost-found",
+  //           permissions: ["lost-found:read"],
+  //         },
+  //         {
+  //           label: "Logs",
+  //           url: "/dashboard/inventory/logs",
+  //           permissions: ["auditlog:read"],
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
   {
     label: "Student Services",
     permissions: [],
@@ -175,61 +175,61 @@ const SidebarItemsData: SidebarCategory[] = [
           },
         ],
       },
-      {
-        label: "Clearance",
-        icon: OctagonX,
-        permissions: ["clearance:read"],
-        items: [
-          {
-            label: "List",
-            url: "/dashboard/clearance/list",
-            permissions: ["clearance:read"],
-          },
-          {
-            label: "Sanctions",
-            url: "/dashboard/clearance/sanctions",
-            permissions: ["clearance:read"],
-          },
-        ],
-      },
-      {
-        label: "Feedback",
-        icon: MessageSquareText,
-        permissions: ["feedback:view"],
-        url: "/dashboard/feedback",
-      },
+      // {
+      //   label: "Clearance",
+      //   icon: OctagonX,
+      //   permissions: ["clearance:read"],
+      //   items: [
+      //     {
+      //       label: "List",
+      //       url: "/dashboard/clearance/list",
+      //       permissions: ["clearance:read"],
+      //     },
+      //     {
+      //       label: "Sanctions",
+      //       url: "/dashboard/clearance/sanctions",
+      //       permissions: ["clearance:read"],
+      //     },
+      //   ],
+      // },
+      // {
+      //   label: "Feedback",
+      //   icon: MessageSquareText,
+      //   permissions: ["feedback:view"],
+      //   url: "/dashboard/feedback",
+      // },
     ],
   },
-  {
-    label: "CMS",
-    permissions: [],
-    items: [
-      {
-        label: "Announcements",
-        icon: Megaphone,
-        permissions: ["post:read"],
-        url: "/dashboard/announcements",
-      },
-      {
-        label: "Events",
-        icon: Calendars,
-        permissions: ["post:read"],
-        url: "/dashboard/events",
-      },
-      {
-        label: "Projects",
-        icon: Folders,
-        permissions: ["post:read"],
-        url: "/dashboard/projects",
-      },
-      {
-        label: "Bulletin Board",
-        icon: Pin,
-        permissions: ["post:read"],
-        url: "/dashboard/bulletin",
-      },
-    ],
-  },
+  // {
+  //   label: "CMS",
+  //   permissions: [],
+  //   items: [
+  //     {
+  //       label: "Announcements",
+  //       icon: Megaphone,
+  //       permissions: ["post:read"],
+  //       url: "/dashboard/announcements",
+  //     },
+  //     {
+  //       label: "Events",
+  //       icon: Calendars,
+  //       permissions: ["post:read"],
+  //       url: "/dashboard/events",
+  //     },
+  //     {
+  //       label: "Projects",
+  //       icon: Folders,
+  //       permissions: ["post:read"],
+  //       url: "/dashboard/projects",
+  //     },
+  //     {
+  //       label: "Bulletin Board",
+  //       icon: Pin,
+  //       permissions: ["post:read"],
+  //       url: "/dashboard/bulletin",
+  //     },
+  //   ],
+  // },
   {
     label: "Admin",
     permissions: [],
