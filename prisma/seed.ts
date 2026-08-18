@@ -232,7 +232,9 @@ const SeedPermissionCategoriesAndPermissions = async () => {
       })),
       skipDuplicates: true,
     });
-    console.log(`[7.1] Assigned ${allPermissions.length} Permissions to Admin Role`);
+    console.log(
+      `[7.1] Assigned ${allPermissions.length} Permissions to Admin Role`,
+    );
   }
 
   console.log("[7] Permissions Seed Complete");
@@ -250,6 +252,48 @@ const SeedUsersData: {
     last_name: "Account",
     username: "admin",
     password: "password123",
+    role_key: "Admin",
+  },
+  {
+    first_name: "Le Andrea",
+    last_name: "Jurado",
+    username: "le.jurado",
+    password: "le.jurado",
+    role_key: "Admin",
+  },
+  {
+    first_name: "Daisy",
+    last_name: "Lucenas",
+    username: "daisy.lucenas",
+    password: "daisy.lucenas",
+    role_key: "Admin",
+  },
+  {
+    first_name: "Hannah Bianca",
+    last_name: "Abuso",
+    username: "hannah.abuso",
+    password: "hannah.abuso",
+    role_key: "Admin",
+  },
+  {
+    first_name: "Hazel Mae",
+    last_name: "Bujawe",
+    username: "hazel.bujawe",
+    password: "hazel.bujawe",
+    role_key: "Admin",
+  },
+  {
+    first_name: "Jan Franscine",
+    last_name: "Herbolingo",
+    username: "jan.franscine",
+    password: "jan.franscine",
+    role_key: "Admin",
+  },
+  {
+    first_name: "Joaquin David",
+    last_name: "Batallones",
+    username: "qin.david",
+    password: "qin.david",
     role_key: "Admin",
   },
 ];
@@ -516,17 +560,54 @@ const SeedInventoryCategories = async () => {
   console.log("[Seeding] Seeding Default Inventory Categories");
   await prisma.inventoryCategory.createMany({
     data: [
-      { name: "Default", description: "Default category for unassigned or reallocated inventory items" },
-      { name: "Office", description: "Office tools, stationery, paper, desks, and supplies" },
-      { name: "Medicine & Health", description: "First aid kits, emergency medication, and clinic supplies" },
-      { name: "Cleaning & Sanitation", description: "Janitorial supplies, disinfectants, and hygiene products" },
-      { name: "IT & Computing", description: "Computers, network switches, cables, and hardware components" },
-      { name: "Audio & Visual", description: "Microphones, speakers, projectors, and multimedia gear" },
-      { name: "Sports & Recreation", description: "Balls, nets, sports kits, and recreational gear" },
-      { name: "Laboratory", description: "Lab testing tools, experimental kits, and measuring devices" },
-      { name: "Furniture & Fixtures", description: "Chairs, tables, cabinets, and boards" },
-      { name: "Appliances", description: "Air conditioners, fans, and electrical appliances" },
-      { name: "Events & Logistics", description: "Banners, event equipment, decorations, and props" },
+      {
+        name: "Default",
+        description:
+          "Default category for unassigned or reallocated inventory items",
+      },
+      {
+        name: "Office",
+        description: "Office tools, stationery, paper, desks, and supplies",
+      },
+      {
+        name: "Medicine & Health",
+        description:
+          "First aid kits, emergency medication, and clinic supplies",
+      },
+      {
+        name: "Cleaning & Sanitation",
+        description: "Janitorial supplies, disinfectants, and hygiene products",
+      },
+      {
+        name: "IT & Computing",
+        description:
+          "Computers, network switches, cables, and hardware components",
+      },
+      {
+        name: "Audio & Visual",
+        description: "Microphones, speakers, projectors, and multimedia gear",
+      },
+      {
+        name: "Sports & Recreation",
+        description: "Balls, nets, sports kits, and recreational gear",
+      },
+      {
+        name: "Laboratory",
+        description:
+          "Lab testing tools, experimental kits, and measuring devices",
+      },
+      {
+        name: "Furniture & Fixtures",
+        description: "Chairs, tables, cabinets, and boards",
+      },
+      {
+        name: "Appliances",
+        description: "Air conditioners, fans, and electrical appliances",
+      },
+      {
+        name: "Events & Logistics",
+        description: "Banners, event equipment, decorations, and props",
+      },
     ],
     skipDuplicates: true,
   });
