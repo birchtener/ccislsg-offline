@@ -127,3 +127,8 @@ To prevent accidental duplicates or erroneous entries, the `Confirmation Modal` 
 2. Commit your changes (`git commit -m 'Add some AmazingFeature'`).
 3. Push to the branch (`git push origin feature/AmazingFeature`).
 4. Open a Pull Request against the `main` branch.
+
+What to change:
+
+1. next.config.ts
+2. env BETTER_AUTH_URL="http://10.111.11.44:3000"
