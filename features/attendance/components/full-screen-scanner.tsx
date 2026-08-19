@@ -1,5 +1,6 @@
 "use client";
 
+import "@/lib/zxing-setup";
 import React from "react";
 import { Scanner } from "@yudiel/react-qr-scanner";
 
@@ -28,6 +29,8 @@ export default function FullScreenScanner({
 
       <div className="relative w-full h-full [&>video]:object-cover [&>video]:w-full [&>video]:h-full">
         <Scanner
+          allowMultiple={true}
+          scanDelay={1500}
           onScan={(result) => {
             if (result && result.length > 0) {
               onScan(result[0].rawValue);

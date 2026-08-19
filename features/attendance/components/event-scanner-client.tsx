@@ -34,6 +34,7 @@ import Link from "next/link";
 import { toast } from "sonner";
 import { GetStudentScanStatus, RecordAttendance } from "../actions/attendance";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import "@/lib/zxing-setup";
 import { Scanner } from "@yudiel/react-qr-scanner";
 import {
   Drawer,
@@ -43,6 +44,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface EventScannerClientProps {
   event: {
@@ -154,9 +156,60 @@ export function EventScannerClient({
     }
   }, [isWithin, locError, checkingGeofence, distanceText, router]);
 
+  const isMobile = useIsMobile();
+
+  const saveAttendanceRecord = React.useCallback(
+    async (student: any, type: "in" | "out") => {
+      setSubmittingAttendance(true);
+      const toastId = toast.loading(
+        `Recording ${type === "in" ? "Time In" : "Time Out"}...`,
+      );
+
+      try {
+        const result = await RecordAttendance(event.id, student.id, type);
+
+        if (!result.ok) {
+          playBeep("error");
+          toast.error(result.error || "Failed to record attendance.", {
+            id: toastId,
+          });
+          return false;
+        }
+
+        playBeep("success");
+        toast.success(result.message || "Attendance recorded successfully.", {
+          id: toastId,
+        });
+
+        const newEntry: ScanLogEntry = {
+          id: result.record?.id || Math.random().toString(),
+          studentId: student.student_id,
+          studentName: `${student.first_name} ${student.last_name}`,
+          type: type,
+          time: result.record?.time ? new Date(result.record.time) : new Date(),
+        };
+
+        setSessionLogs((prev) => [newEntry, ...prev].slice(0, 10));
+        setIsConfirmOpen(false);
+        setStudentInfo(null);
+        setLastAttendance(null);
+        return true;
+      } catch (err) {
+        playBeep("error");
+        toast.error("An unexpected error occurred while saving.", {
+          id: toastId,
+        });
+        return false;
+      } finally {
+        setSubmittingAttendance(false);
+      }
+    },
+    [event.id],
+  );
+
   const handleScan = React.useCallback(
     async (result: string) => {
-      if (!result) return;
+      if (!result || isConfirmOpen || loadingStatus || submittingAttendance) return;
       setLoadingStatus(true);
 
       try {
@@ -169,6 +222,22 @@ export function EventScannerClient({
           return;
         }
 
+        // On desktop mode, auto-record Time In / Time Out without opening the confirmation modal
+        if (!isMobile) {
+          if (!res.lastAttendance) {
+            // Student has not timed in yet -> Auto Time In
+            await saveAttendanceRecord(res.student, "in");
+            return;
+          }
+
+          if (res.lastAttendance.type === "in" && event.requires_time_out) {
+            // Student is timed in & event requires time out -> Auto Time Out
+            await saveAttendanceRecord(res.student, "out");
+            return;
+          }
+        }
+
+        // Otherwise (on mobile, or student already completed cycle, or single-scan event re-attempt): open confirmation dialog
         playBeep("success");
         setStudentInfo(res.student);
         setLastAttendance(res.lastAttendance);
@@ -180,7 +249,15 @@ export function EventScannerClient({
         setLoadingStatus(false);
       }
     },
-    [event.id],
+    [
+      event.id,
+      event.requires_time_out,
+      isConfirmOpen,
+      isMobile,
+      loadingStatus,
+      saveAttendanceRecord,
+      submittingAttendance,
+    ],
   );
 
   const handleManualSubmit = async (e: React.FormEvent) => {
@@ -196,49 +273,7 @@ export function EventScannerClient({
 
   const handleRecordAttendance = async (type: "in" | "out") => {
     if (!studentInfo) return;
-    setSubmittingAttendance(true);
-
-    const toastId = toast.loading(
-      `Recording ${type === "in" ? "Time In" : "Time Out"}...`,
-    );
-
-    try {
-      const result = await RecordAttendance(event.id, studentInfo.id, type);
-
-      if (!result.ok) {
-        playBeep("error");
-        toast.error(result.error || "Failed to record attendance.", {
-          id: toastId,
-        });
-        setSubmittingAttendance(false);
-        return;
-      }
-
-      playBeep("success");
-      toast.success(result.message || "Attendance recorded successfully.", {
-        id: toastId,
-      });
-
-      const newEntry: ScanLogEntry = {
-        id: result.record?.id || Math.random().toString(),
-        studentId: studentInfo.student_id,
-        studentName: `${studentInfo.first_name} ${studentInfo.last_name}`,
-        type: type,
-        time: result.record?.time ? new Date(result.record.time) : new Date(),
-      };
-
-      setSessionLogs((prev) => [newEntry, ...prev].slice(0, 10));
-      setIsConfirmOpen(false);
-      setStudentInfo(null);
-      setLastAttendance(null);
-    } catch (err) {
-      playBeep("error");
-      toast.error("An unexpected error occurred while saving.", {
-        id: toastId,
-      });
-    } finally {
-      setSubmittingAttendance(false);
-    }
+    await saveAttendanceRecord(studentInfo, type);
   };
 
   const formattedLastAttendanceTime = lastAttendance?.time
@@ -353,6 +388,8 @@ export function EventScannerClient({
         <div className="lg:col-span-2 relative">
           <div className="relative w-full h-[calc(100vh-12rem)] min-h-100 lg:h-[calc(100vh-14rem)] overflow-hidden rounded-xl border border-border bg-black shadow-lg">
             <Scanner
+              allowMultiple={true}
+              scanDelay={1500}
               onScan={(result) => {
                 if (result && result.length > 0) {
                   handleScan(result[0].rawValue);
